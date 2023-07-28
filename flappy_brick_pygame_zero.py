@@ -13,23 +13,23 @@ brick.y = 250
 #SETUP WALLS
 wall_top = Actor("wall-top")
 wall_bottom = Actor("wall-bottom")
-gap = 150
-wall_top.x = 300
+gap = WIDTH//4
+wall_top.x = WIDTH//2
 wall_top.y = 0
-wall_bottom.x = 300
+wall_bottom.x = WIDTH//2
 wall_bottom.y = wall_top.height + gap
 
 #BUTTON PRESSES
 def on_mouse_down():
-  brick.y = brick.y - 50
+  brick.y = brick.y - 30
 
 #DRAW STUFF TO SCREEN
 def draw():
-  screen.fill("black")
+  screen.fill("royalblue")
   brick.draw()
   wall_top.draw()
   wall_bottom.draw()
-  screen.draw.text(str(score), (500, 30), color="orange")
+  screen.draw.text(str(score), (500, 30), color="orange", fontsize=50)
 
 #EACH CYCLE THROUGH THE LOOP
 def update():
@@ -40,7 +40,7 @@ def update():
   #COLLISIONS
   if brick.colliderect(wall_top) or brick.colliderect(wall_bottom):
       reset()
-  if brick.y > 600:
+  if brick.y > WIDTH - brick.height:
       reset()
   if wall_top.x < 0:
       score = score + 1
@@ -52,15 +52,15 @@ def reset():
   score = 0
   print("The game is resetting")
   brick.y = 250
-  wall_top.x = 300
-  wall_bottom.x = 300
+  wall_top.x = WIDTH//2
+  wall_bottom.x = WIDTH//2
 
 
 def reset_walls():
-  wall_top.x = 600
-  wall_bottom.x = 600
-  wall_top.y = random.randint(-10, 10)*5
-  wall_bottom.y = wall_top.y + wall_top.height + gap
+  wall_top.x = WIDTH
+  wall_bottom.x = WIDTH
+  wall_top.y = random.randint(-10, 10)*5 #50 up or down but incremented by 5
+  wall_bottom.y = wall_top.y + wall_top.height + (random.randint(25, 35)*5)
 
 
 #RUN PYGAME ZERO

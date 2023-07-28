@@ -14,16 +14,16 @@ def reset_walls():
     global wall_top_rect, wall_bottom_rect
     wall_top_rect.x = WIDTH
     wall_bottom_rect.x = WIDTH
-    wall_top_rect.y = random.randint(-10, 4)*5
+    wall_top_rect.y = random.randint(-(WALL_HEIGHT//5)+5, 0)*5 # from just on the screen to fully on the screen
     wall_bottom_rect.y = wall_top_rect.y + WALL_HEIGHT + (random.randint(25, 35)*5)
 
 # GLOBAL VARIABLES
 ORANGE = (255, 165, 0)
 BLACK = (0, 0, 0)
-BLUE = (75, 90, 238)
+BLUE = (65, 105, 225)
 
 # Select the font to use, size, bold, italics
-font = pygame.font.SysFont('Calibri', 25, True, False)
+font = pygame.font.SysFont('Calibri', 50, True, False)
 
 # Screen dimensions
 WIDTH = 600 

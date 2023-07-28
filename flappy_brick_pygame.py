@@ -3,16 +3,19 @@ pygame.init()
 
 #PUT FUNCTIONS HERE
 def reset():
-    global brick_rect
+    global brick_rect, wall_top_rect, wall_bottom_rect
     brick_rect.y = 250
-    reset_walls()
+    wall_top_rect.x = WIDTH//2
+    wall_top_rect.y = -(WALL_HEIGHT//2)
+    wall_bottom_rect.x = WIDTH//2
+    wall_bottom_rect.y = wall_top_rect.y + WALL_HEIGHT + gap
 
 def reset_walls():
     global wall_top_rect, wall_bottom_rect
-    wall_top_rect.x = 800
-    wall_bottom_rect.x = 800
+    wall_top_rect.x = WIDTH
+    wall_bottom_rect.x = WIDTH
     wall_top_rect.y = random.randint(-10, 4)*5
-    wall_bottom_rect.y = wall_top_rect.y + wall_top_height + (random.randint(25, 35)*5)
+    wall_bottom_rect.y = wall_top_rect.y + WALL_HEIGHT + (random.randint(25, 35)*5)
 
 # GLOBAL VARIABLES
 ORANGE = (255, 165, 0)
@@ -23,8 +26,8 @@ BLUE = (75, 90, 238)
 font = pygame.font.SysFont('Calibri', 25, True, False)
 
 # Screen dimensions
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 600 
+HEIGHT = 400
 
 #setup screen
 size = [WIDTH, HEIGHT]
@@ -41,18 +44,17 @@ brick_rect.y = 250
 wall_top = pygame.sprite.Sprite()
 wall_bottom = pygame.sprite.Sprite()
 wall_top.image = pygame.image.load("images/wall-top.png")
-wall_top_height = wall_top.image.get_rect().height
-wall_top_width = wall_top.image.get_rect().width
+WALL_HEIGHT = wall_top.image.get_rect().height
 wall_bottom.image = pygame.image.load("images/wall-bottom.png")
 wall_bottom_height = wall_bottom.image.get_rect().height
 wall_bottom_width = wall_bottom.image.get_rect().width
-gap = 150
+gap = WIDTH//4
 wall_top_rect = wall_top.image.get_rect()
-wall_top_rect.x = 300
-wall_top_rect.y = 0
+wall_top_rect.x = WIDTH//2
+wall_top_rect.y = -(WALL_HEIGHT//2)
 wall_bottom_rect = wall_bottom.image.get_rect()
-wall_bottom_rect.x = 300
-wall_bottom_rect.y = wall_top_height + gap
+wall_bottom_rect.x = WIDTH//2
+wall_bottom_rect.y = wall_top_rect.y + WALL_HEIGHT + gap
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
@@ -83,7 +85,7 @@ while not done:
 
     if is_hit:
         reset()
-    if brick_rect.y > 600:
+    if brick_rect.y > (HEIGHT - brick_rect.height):
         reset()
     if wall_top_rect.x < 0:
         score = score + 1

@@ -42,8 +42,46 @@ def reset_walls():
     gap = random.randint(25, 35) * 5
     wall_bottom_rect.y = wall_top_rect.y + WALL_HEIGHT + gap
 
+def update_all():
+    global score
+    #UPDATE ALL THE SPRITES
+    brick_rect.y = brick_rect.y + 1
+    wall_top_rect.x = wall_top_rect.x - 1
+    wall_bottom_rect.x = wall_bottom_rect.x - 1
+    #CHECK FOR COLLISIONS
+    is_hit = brick_rect.colliderect(wall_top_rect) or \
+        brick_rect.colliderect(wall_bottom_rect)
 
+    #if there is a collision with a wall?
+    if is_hit:
+        reset()
+    #if the brick hits the bottom of the screen?
+    if brick_rect.y > (HEIGHT - brick_rect.height):
+        reset()
+    #if the wall goes off the left side of the screen?
+    if wall_top_rect.x <= wall_top_rect.width * -1:
+        score = score + 1
+        reset_walls()
 
+def display_all():
+    screen.fill(BLUE)
+    screen.blit(brick.image, [brick_rect.x, brick_rect.y])
+    screen.blit(wall_top.image, [wall_top_rect.x, wall_top_rect.y])
+    screen.blit(wall_bottom.image, [wall_bottom_rect.x, wall_bottom_rect.y])
+
+    # Add score text
+    text = font.render(str(score), True, ORANGE)
+    screen.blit(text, (500, 30))
+
+pygame.init()
+
+# GLOBAL VARIABLES
+ORANGE = (255, 165, 0)
+BLACK = (0, 0, 0)
+BLUE = (75, 90, 238)
+
+# Select the font to use, size, bold, italics, size, bold
+font = pygame.font.SysFont('Calibri', size = 25, bold = True, italic = False)   
 
 #setup screen
 size = [WIDTH, HEIGHT]
@@ -84,36 +122,13 @@ while not done:
         #manage mouse click
         if event.type == pygame.MOUSEBUTTONDOWN:
             brick_rect.y = brick_rect.y - 30
-
-    #UPDATE ALL THE SPRITES
-    brick_rect.y = brick_rect.y + 1
-    wall_top_rect.x = wall_top_rect.x - 1
-    wall_bottom_rect.x = wall_bottom_rect.x - 1
-
-    #CHECK FOR COLLISIONS
-    is_hit = brick_rect.colliderect(wall_top_rect) or brick_rect.colliderect(
-        wall_bottom_rect)
-
-    #if there is a collision with a wall?
-    if is_hit:
-        reset()
-    #if the brick hits the bottom of the screen?
-    if brick_rect.y > (HEIGHT - brick_rect.height):
-        reset()
-    #if the wall goes off the left side of the screen?
-    if wall_top_rect.x <= wall_top_rect.width * -1:
-        score = score + 1
-        reset_walls()
-
+    
+    #UPDATE EVERYTHING
+    update_all()
+    
     #DISPLAY EVERYTHING
-    screen.fill(BLUE)
-    screen.blit(brick.image, [brick_rect.x, brick_rect.y])
-    screen.blit(wall_top.image, [wall_top_rect.x, wall_top_rect.y])
-    screen.blit(wall_bottom.image, [wall_bottom_rect.x, wall_bottom_rect.y])
-
-    # Add score text
-    text = font.render(str(score), True, ORANGE)
-    screen.blit(text, (500, 30))
+    display_all()
+    
 
     pygame.display.flip()
 

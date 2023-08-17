@@ -23,14 +23,6 @@ wall_bottom.y = wall_top.height + gap
 def on_mouse_down():
   brick.y = brick.y - 30
 
-#DRAW STUFF TO SCREEN
-def draw():
-  screen.fill("royalblue")
-  brick.draw()
-  wall_top.draw()
-  wall_bottom.draw()
-  screen.draw.text(str(score), (500, 30), color="orange", fontsize=50)
-
 #EACH CYCLE THROUGH THE LOOP
 def update():
   global score
@@ -45,6 +37,14 @@ def update():
   if wall_top.x < 0:
       score = score + 1
       reset_walls()
+
+#DRAW STUFF TO SCREEN
+def draw():
+  screen.fill("royalblue")
+  brick.draw()
+  wall_top.draw()
+  wall_bottom.draw()
+  screen.draw.text(str(score), (500, 30), color="orange", fontsize=50)
 
 #RESET
 def reset():
